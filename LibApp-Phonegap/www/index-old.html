@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <title>LibApp</title>
+
+        <!-- Meta tags -->
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+        <!-- CSS -->
+        <link href="css/index.css" rel="stylesheet" type="text/css" >
+        <link href="css/jquery.mobile-1.3.2.min.css" rel="stylesheet" type="text/css">
+
+        <!-- Javascript -->
+        <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile-1.3.2.min.js"></script>
+
+    </head>
+    <body>
+
+        <!-- Login screen -->
+        <section data-role="page" id="page_login">
+
+            <div data-role="header">
+                <h1>Login</h1>
+            </div>
+
+            <div data-role="content">
+
+                Your content library<br />
+                Video.Audio.Books
+
+                <form method="POST" action="index.html" id="loginForm">
+                    <fieldset>
+                        <label>E-mail</label>
+                        <input type="email" name="email" id="userMail" value="guido.kersten@live.nl" />
+                    </fieldset>
+                    <fieldset>
+                        <label>Wachtwoord</label>
+                        <input type="password" name="password" id="userPassword" value="pass" />
+                    </fieldset>
+                    <fieldset>
+                        <input type="submit" value="Login" />
+                    </fieldset>
+                    <fieldset>
+                        <a href="#page_register" data-role="button">Signup</a>
+                    </fieldset>
+                </form>
+            </div>
+
+        </section>
+
+        <!-- Register screen -->
+        <section data-role="page" id="page_register">
+
+            <div data-role="header">
+                <a href="#" data-rel="back" data-role="button" data-iconpos="notext" data-icon="arrow-l" data-direction="reverse">Terug</a>
+                <h1>Create account</h1>
+            </div>
+
+            <div data-role="content">
+                <form method="POST" action="index.html" id="registerForm">
+                    <fieldset>
+                        <label>Email</label>
+                        <input type="email" name="mail" id="userRegEmail" />
+                    </fieldset>
+                    <fieldset>
+                        <label>Password</label>
+                        <input type="password" name="password" id="userRegPassword" />
+                    </fieldset>
+                    <fieldset>
+                        <label>Firstname</label>
+                        <input type="text" name="firstname" id="userRegFirstname" />
+                    </fieldset>
+                    <fieldset>
+                        <label>Insertion</label>
+                        <input type="text" name="insertion" id="userRegInsertion" />
+                    </fieldset>
+                    <fieldset>
+                        <label>Lastname</label>
+                        <input type="text" name="lastname" id="userRegLastname" />
+                    </fieldset>
+                    <fieldset>
+                        <input type="submit" value="Create an account" />
+                    </fieldset>
+                </form>
+            </div>
+
+        </section>
+
+        <!-- Search screen -->
+        <section data-role="page" id="page_search">
+            <!-- Header -->
+            <div data-role="header">
+                <a href="#" data-rel="back" data-role="button" data-iconpos="notext" data-icon="arrow-l" data-direction="reverse">Terug</a>
+                <h1>Search</h1>
+            </div>
+
+            <div data-role="content">
+                <!-- Search box -->
+                <div>
+                    <input type="text" name="searchbox" id="searchbox" />
+                </div>
+
+                <!-- Library items -->
+                <div>
+                    <!-- Here goes the library content -->
+                    <ul data-role='listview' id='contentlist'>
+                        <li><a href="#page_seeItem" id="0"><h1>Name of content</h1><p>Short description</p></a></li>
+                        <li><a href="#page_seeItem" id="1"><h1>Name of content</h1><p>Short description</p></a></li>
+                        <li><a href="#page_seeItem" id="2"><h1>Name of content</h1><p>Short description</p></a></li>
+                    </ul>
+
+                    <!-- <li><a href="#page_seeTag" id="' + tag.identifier + '"><img src="' + webpath + 'tagImages/' + tag.photo + '" /><h1>' + tag.name + ', ' + distance + ' meter.</h1><p>' + tag.description + '</p><p>Verdieping ' + tag.floor + ' | Replies ' + tag.nrofreplies + '</p></a></li>' -->
+                </div>
+            </div>
+
+            <!-- Tab barr -->
+            <div data-role="footer" data-position="fixed">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#page_search">SEARCH</a></li>
+                        <li><a href="#page_libraries">LIBRARIES</a></li>
+                        <li><a href="#page_settings">SETTINGS</a></li>
+                        <!--<li><a href="#page_settings"><img src="img/bottommenu/grafieken.png" /></a></li>-->
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Libraries screen -->
+        <section data-role="page" id="page_libraries">
+            <!-- Header -->
+            <div data-role="header">
+                <a href="#" data-rel="back" data-role="button" data-iconpos="notext" data-icon="arrow-l" data-direction="reverse">Terug</a>
+                <h1>Libraries</h1>
+                <a href="#page_addlibrary" data-role="button" data-iconpos="notext" data-icon="plus">Add library</a>
+            </div>
+
+            <div data-role="content">
+
+            </div>
+
+            <!-- Tab barr -->
+            <div data-role="footer" data-position="fixed">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#page_search">SEARCH</a></li>
+                        <li><a href="#page_libraries">LIBRARIES</a></li>
+                        <li><a href="#page_settings">SETTINGS</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add library screen -->
+        <section data-role="page" id="page_addlibrary">
+            <!-- Header -->
+            <div data-role="header">
+                <a href="#" data-rel="back" data-role="button" data-iconpos="notext" data-icon="arrow-l" data-direction="reverse">Terug</a>
+                <h1>Add library</h1>
+            </div>
+
+            <div data-role="content">
+                <!-- Content -->
+                Add library
+            </div>
+
+            <!-- Tab barr -->
+            <div data-role="footer" data-position="fixed">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#page_search">SEARCH</a></li>
+                        <li><a href="#page_libraries">LIBRARIES</a></li>
+                        <li><a href="#page_settings">SETTINGS</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings screen -->
+        <section data-role="page" id="page_settings">
+            <!-- Header -->
+            <div data-role="header">
+                <a href="#" data-rel="back" data-role="button" data-iconpos="notext" data-icon="arrow-l" data-direction="reverse">Terug</a>
+                <h1>Settings</h1>
+            </div>
+
+            <div data-role="content">
+                <!-- Logout button -->
+            </div>
+
+            <!-- Tab barr -->
+            <div data-role="footer" data-position="fixed">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#page_search">SEARCH</a></li>
+                        <li><a href="#page_libraries">LIBRARIES</a></li>
+                        <li><a href="#page_settings">SETTINGS</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phone gap and own js -->
+        <script type="text/javascript" src="phonegap.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            initApp();
+        </script>
+    </body>
+</html>

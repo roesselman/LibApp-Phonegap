@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <title>LibApp</title>
+
+        <!-- Meta tags -->
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+        <!-- Javascript -->
+        <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile-1.3.2.min.js"></script>
+
+        <!-- Scrollview -->
+        <script src="http://yui.yahooapis.com/3.12.0/build/yui/yui-min.js"></script>
+
+        <script type="text/javascript" src="js/scrollview.js" charset="utf-8"></script>
+
+        <!-- CSS -->
+        <link href="css/index.css" rel="stylesheet" type="text/css" >
+        <link href="css/jquery.mobile-1.3.2.min.css" rel="stylesheet" type="text/css">
+
+    </head>
+    <body class="yui3-skin-sam">
+
+        <!-- Login screen -->
+        <section data-role="page" id="page_login">
+
+            <div data-role="header">
+                <h1>Login</h1>
+            </div>
+
+            <div data-role="content">
+
+                <h1>Your content library</h1>
+                <p>Video.Audio.Books</p>
+
+                <form method="POST" action="index.html" id="loginForm">
+                    <fieldset data-role="fieldcontain">
+                        <label for="userMail">Email</label>
+                        <input type="email" name="email" id="userMail" value="guido.kersten@live.nl" placeholder="Email" />
+                    </fieldset>
+                    <fieldset data-role="fieldcontain">
+                        <label for="userPassword">Password</label>
+                        <input type="password" name="password" id="userPassword" value="pass" placeholder="Password"  />
+                    </fieldset>
+                    <fieldset>
+                        <a id="btnForgotPassword" href="#page_forgotpassword">Forgot password?</a>
+                    </fieldset>
+                    <fieldset>
+                        <input type="submit" value="Login" data-inline="true"/>
+                        <a href="#page_register" data-role="button" id="btnSignup" data-inline="true">Signup</a>
+                    </fieldset>
+                </form>
+            </div>
+
+        </section>
+
+        <!-- Scrollview test page -->
+        <section data-role="page" id="page_scrollview">
+            <div data-role="header">
+                <h1>Sv test page</h1>
+            </div>
+
+            <div data-role="content">
+
+                <div id="scrollview-container">
+
+                    <div id="scrollview-content" class="yui3-scrollview-loading">
+                        <ul data-role='listview'>
+                            <li>AC/DC</li>
+                            <li>Aerosmith</li>
+                            <li>Billy Joel</li>
+                            <li>Bob Dylan</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration screen -->
+        <section data-role="page" id="page_register">
+
+            <div data-role="header">
+                <a href="#" data-rel="back" data-role="button" data-iconpos="notext" data-icon="arrow-l" data-direction="reverse">Terug</a>
+                <h1>Create account</h1>
+            </div>
+
+            <div data-role="content">
+                <form method="POST" action="index.html" id="registerForm">
+                    <fieldset>
+                        <label for="userRegEmail">Email</label>
+                        <input type="email" name="mail" id="userRegEmail" />
+                    </fieldset>
+                    <fieldset>
+                        <label for="userRegPassword">Password</label>
+                        <input type="password" name="password" id="userRegPassword" />
+                    </fieldset>
+                    <fieldset>
+                        <label for="userRegFirstname">Firstname</label>
+                        <input type="text" name="firstname" id="userRegFirstname" />
+                    </fieldset>
+                    <fieldset>
+                        <label for="userRegInsertion">Insertion</label>
+                        <input type="text" name="insertion" id="userRegInsertion" />
+                    </fieldset>
+                    <fieldset>
+                        <label for="userRegLastname">Lastname</label>
+                        <input type="text" name="lastname" id="userRegLastname" />
+                    </fieldset>
+                    <fieldset>
+                        <input type="submit" value="Create an account" />
+                    </fieldset>
+                </form>
+            </div>
+
+        </section>
+
+        <!-- Forgot password screen -->
+        <section data-role="page" id="page_forgotpassword">
+
+            <div data-role="header">
+                <a href="#" data-rel="back" data-role="button" data-iconpos="notext" data-icon="arrow-l" data-direction="reverse">Terug</a>
+                <h1>Forgot password</h1>
+            </div>
+
+            <div data-role="content">
+            </div>
+
+        </section>
+
+        <!-- Search screen -->
+        <section data-role="page" id="page_search">
+            <!-- Header -->
+            <div data-role="header">
+                <a href="#" data-rel="back" data-role="button" data-iconpos="notext" data-icon="arrow-l" data-direction="reverse">Terug</a>
+                <h1>Search</h1>
+            </div>
+
+            <div data-role="content">
+
+                <!-- Library items -->
+                <div>
+                    <!-- Here goes the library content -->
+                    <ul data-role='listview' id='contentlist' data-filter="true">
+                        <li data-role="list-divider">Audio</li>
+                        <li><a href="#page_seeItem" id="0-kooks"><h1>The kooks - Seaside.</h1><p>Kast [2e plank]</p></a></li>
+                        <li><a href="#page_seeItem" id="1-regina"><h1>Laughing with - Regina Spector.</h1><p>Computer [/C:Users..]</p></a></li>
+                        <li data-role="list-divider">Book</li>
+                        <li><a href="#page_seeItem" id="2-cassandra"><h1>City of glass - Cassandra Clare</h1><p>Kast [1e plank van boven]</p></a></li>
+                        <li data-role="list-divider">Video</li>
+                        <li><a href="#page_seeItem" id="3-harry"><h1>Harry potter - Prizener of Azkaban.</h1><p>Kast [3e plank van onder]</p></a></li>
+                        <li><a href="#page_seeItem" id="4-driver"><h1>Driv3r</h1><p>Kast [3e plank van onder]</p></a></li>
+                    </ul>
+
+                    <!-- <li><a href="#page_seeTag" id="' + tag.identifier + '"><img src="' + webpath + 'tagImages/' + tag.photo + '" /><h1>' + tag.name + ', ' + distance + ' meter.</h1><p>' + tag.description + '</p><p>Verdieping ' + tag.floor + ' | Replies ' + tag.nrofreplies + '</p></a></li>' -->
+                </div>
+            </div>
+
+            <!-- Tab barr -->
+            <div data-role="footer" data-position="fixed">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#page_search">SEARCH</a></li>
+                        <li><a href="#page_libraries">LIBRARIES</a></li>
+                        <li><a href="#page_settings">SETTINGS</a></li>
+                        <!--<li><a href="#page_settings"><img src="img/bottommenu/grafieken.png" /></a></li>-->
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Libraries screen -->
+        <section data-role="page" id="page_libraries">
+            <!-- Header -->
+            <div data-role="header">
+                <a href="#" data-rel="back" data-role="button" data-iconpos="notext" data-icon="arrow-l" data-direction="reverse">Terug</a>
+                <h1>Libraries</h1>
+                <a href="#page_addlibrary" data-role="button" data-iconpos="notext" data-icon="plus">Add library</a>
+            </div>
+
+            <div data-role="content" id="librariesContent">
+                <p>My libraries</p>
+
+                <div class="hsvLibraries">
+                    <div id="hsvContent">
+                    <div class="customLibraryView customLibraryViewLeft">
+
+                    </div>
+                    <div class="customLibraryView">
+
+                    </div>
+                    <div class="customLibraryView">
+
+                    </div>
+                    <div class="customLibraryView customLibraryViewRight">
+
+                    </div>
+                    <div style="clear: left;"></div>
+                    </div>
+                </div>
+
+                <!--<div>
+
+                </div>-->
+                <p>Shared libraries</p>
+                <div class="hsvLibraries">
+                    <!--<div id="hsvContent">-->
+                    <div class="customLibraryView customLibraryViewLeft">
+
+                    </div>
+                    <div class="customLibraryView customLibraryViewRight">
+
+                    </div>
+                    <div style="clear: left;"></div>
+                    <!--</div>-->
+                </div>
+            </div>
+
+            <!-- Tab barr -->
+            <div data-role="footer" data-position="fixed">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#page_search">SEARCH</a></li>
+                        <li><a href="#page_libraries">LIBRARIES</a></li>
+                        <li><a href="#page_settings">SETTINGS</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add library screen -->
+        <section data-role="page" id="page_addlibrary">
+            <!-- Header -->
+            <div data-role="header">
+                <a href="#" data-rel="back" data-role="button" data-iconpos="notext" data-icon="arrow-l" data-direction="reverse">Terug</a>
+                <h1>Add library</h1>
+            </div>
+
+            <div data-role="content">
+                <!-- Content -->
+                <form method="POST" action="#" id="addLibraryForm">
+                    <fieldset data-role="fieldcontain">
+                        <label for="etAddLibraryTitle">Title</label>
+                        <input type="text" name="etTitle" id="etAddLibraryTitle" value="" />
+                    </fieldset>
+                    <fieldset>
+                        <label id="lblAddLibraryUsers">Users</label>
+                        <a href="#" data-role="button" id="btnAddLibraryDeleteUser" data-inline="true">-</a>
+                        <a href="#" data-role="button" id="btnAddLibraryAddUser" data-inline="true">+</a>
+                    </fieldset>
+
+                    <br />
+
+                    <!-- List with users goes here-->
+                    <!-- Needs to be filled by database -->
+                    <fieldset>
+                        <div id="divScrollUsers">
+                        <ul data-role='listview' id='lvAddLibraryUsers' data-scroll="true">
+                            <li><a href="#page_seeItem" id="0-maichel">Maichel van Roessel</a></li>
+                            <li><a href="#page_seeItem" id="1-guido">Guido Kersten</a></li>
+                            <li><a href="#page_seeItem" id="2-bente">Bente van de Burght</a></li>
+                            <li><a href="#page_seeItem" id="3-tessa">Tessa van Genderen</a></li>
+                            <li><a href="#page_seeItem" id="4-test">Test naam</a></li>
+                        </ul>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <label>Content</label>
+                        <label>16 Movies . 230 Music . 23 Books</label>
+                        <a href="#page_addcontent" data-role="button">Add content</a>
+                    </fieldset>
+
+                </form>
+            </div>
+
+            <!-- Tab barr -->
+            <div data-role="footer" data-position="fixed">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#page_search">SEARCH</a></li>
+                        <li><a href="#page_libraries">LIBRARIES</a></li>
+                        <li><a href="#page_settings">SETTINGS</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add content screen -->
+        <section data-role="page" id="page_addcontent">
+            <!-- Header -->
+            <div data-role="header">
+                <a href="#" data-rel="back" data-role="button" data-iconpos="notext" data-icon="arrow-l" data-direction="reverse">Terug</a>
+                <h1>Add content</h1>
+            </div>
+
+            <div data-role="content">
+                <p style="text-align: center">Add content screen</p>
+            </div>
+
+            <!-- Tab barr -->
+            <div data-role="footer" data-position="fixed">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#page_search">SEARCH</a></li>
+                        <li><a href="#page_libraries">LIBRARIES</a></li>
+                        <li><a href="#page_settings">SETTINGS</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings screen -->
+        <section data-role="page" id="page_settings">
+            <!-- Header -->
+            <div data-role="header">
+                <a href="#" data-rel="back" data-role="button" data-iconpos="notext" data-icon="arrow-l" data-direction="reverse">Terug</a>
+                <h1>Settings</h1>
+            </div>
+
+            <div data-role="content">
+                <!-- Logout button -->
+                <a href="" data-role="button" id="btnLogout">Logout</a>
+            </div>
+
+            <!-- Tab barr -->
+            <div data-role="footer" data-position="fixed">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#page_search">SEARCH</a></li>
+                        <li><a href="#page_libraries">LIBRARIES</a></li>
+                        <li><a href="#page_settings">SETTINGS</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phone gap and own js -->
+        <script type="text/javascript" src="phonegap.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            initApp();
+        </script>
+    </body>
+</html>
