@@ -115,37 +115,48 @@ function initApp(){
     }
 
     function queryDB(tx) {
-        tx.executeSql('SELECT * FROM SM_Users', [], querySuccess, errorCB);
+        console.log("Trying to use database.");
+        tx.executeSql('USE LibApp;');
+        console.log("Using database...");
+        console.log("Trying to select all from SM_User table...");
+        tx.executeSql('SELECT * FROM SM_User;', [], querySuccess, errorCB);
+        console.log("Selected * from SM_User!");
     }
 
     function querySuccess(tx, results) {
-        alert("Query trys to work.");
+        console.log("Query is trying to work.");
 
         console.log("Returned rows = " + results.rows.length);
+
         // this will be true since it was a select statement and so rowsAffected was 0
-        if (!results.rowsAffected) {
+        /*if (!results.rowsAffected) {
             console.log('No rows affected!');
-            alert("No rows affected.");
             return false;
-        }
+        }*/
 
         // for an insert statement, this property will return the ID of the last inserted row
         console.log("Last inserted row ID = " + results.insertId);
-        alert("Trying to read results");
+        //alert("Trying to read results");
         var len = results.rows.length;
 
         for (var i=0; i<len; i++){
             //console.log("Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data);
             alert("User: " + results.rows.item(i).Firstname + " " + results.rows.item(i).Insertion + " " + results.rows.item(i).Lastname);
         }
+
+        return true;
     }
 
     // Populate the database
     //
     function populateDB(tx) {
         //tx.executeSql('DROP TABLE IF EXISTS SM_Users');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS SM_Users (Id unique, Email varchar(50), Firstname varchar(50), Insertion varchar(30), Lastname varchar(50))');
-        tx.executeSql('INSERT INTO SM_Users (Id, Email, Firstname, Insertion, Lastname) VALUES (' + userarray['Id'] + ', "' + userarray['Email'] + '", "' + userarray['Firstname'] + '", "' + userarray['Insertion'] + '", "' + userarray['Lastname'] + '")');
+        console.log("Trying to create table");
+        tx.executeSql('CREATE TABLE IF NOT EXISTS SM_User (Id int unique, Email varchar(50), Firstname varchar(50), Insertion varchar(30), Lastname varchar(50));');
+        console.log("Created table");
+        tx.executeSql('INSERT INTO SM_User (Id, Email, Firstname, Insertion, Lastname) VALUES (' + userarray['Id'] + ', "' + userarray['Email'] + '", "' + userarray['Firstname'] + '", "' + userarray['Insertion'] + '", "' + userarray['Lastname'] + '");');
+        console.log("Inserted user");
+        return true;
     }
 
     // Transaction error callback
