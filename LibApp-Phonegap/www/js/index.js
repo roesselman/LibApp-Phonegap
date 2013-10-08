@@ -1,4 +1,4 @@
-var userID = 10;
+var userarray = [];
 var webpath = "http://www.maichelvanroessel.com/Libapp/";
 
 function initApp(){
@@ -32,17 +32,14 @@ function initApp(){
     // Function for back button
     function backButtonHandler(e )
     {
-        if($("#page_search").length > 0){
+        /*if($("#page_search").length > 0){
             // Code to exit app
             navigator.app.exitApp();
         }
-        /*else if($("#page_login").length > 0){
-
-        }*/
-        else{
+        else{*/
             // Code to navigate to the history action
             navigator.app.backHistory();
-        }
+        //}
     }
 
     function logout(){
@@ -77,12 +74,23 @@ function initApp(){
                     },
                     success: function(phpData){
 
-                        //Save the user id to global var
-                        userID = phpData.User.Id;
+                        // Save the user
+                        userarray['Id'] = phpData.User.Id;
+                        userarray['Email'] = phpData.User.Email;
+                        userarray['Firstname'] = phpData.User.Firstname;
+                        userarray['Insertion'] = phpData.User.Insertion;
+                        userarray['Lastname'] = phpData.User.Lastname;
 
                         // Check what data has been returned
-                        if(userID != null && userID != ''){
+                        if(userarray['Id'] != null && userarray['Id'] != ''){
                             // Delete login screen
+
+                            // Store user in database (local storage)
+                            var db = window.openDatabase("LibApp", "1.0", "Lib app database", 200000);
+                            db.transaction(populateDB, errorCB, successCB);
+
+
+                            db.transaction(queryDB, errorCB);
 
                             // Send user to the home page
                             $.mobile.changePage("#page_search", {
@@ -104,6 +112,49 @@ function initApp(){
             // return false to prevent the default submit of the form to the server.
             return false;
         });
+    }
+
+    function queryDB(tx) {
+        tx.executeSql('SELECT * FROM SM_Users', [], querySuccess, errorCB);
+    }
+
+    function querySuccess(tx, results) {
+        console.log("Returned rows = " + results.rows.length);
+        // this will be true since it was a select statement and so rowsAffected was 0
+        if (!results.rowsAffected) {
+            console.log('No rows affected!');
+            return false;
+        }
+
+        // for an insert statement, this property will return the ID of the last inserted row
+        console.log("Last inserted row ID = " + results.insertId);
+
+        var len = results.rows.length;
+
+        for (var i=0; i<len; i++){
+            //console.log("Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data);
+            alert("User: " + results.rows.item(i).Firstname + " " + results.rows.item(i).Insertion + " " + results.rows.item(i).Lastname);
+        }
+    }
+
+    // Populate the database
+    //
+    function populateDB(tx) {
+        //tx.executeSql('DROP TABLE IF EXISTS SM_Users');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS SM_Users (Id unique, Email varchar(50), Firstname varchar(50), Insertion varchar(30), Lastname varchar(50))');
+        tx.executeSql('INSERT INTO SM_Users (Id, Email, Firstname, Insertion, Lastname) VALUES (' + userarray['Id'] + ', "' + userarray['Email'] + '", "' + userarray['Firstname'] + '", "' + userarray['Insertion'] + '", "' + userarray['Lastname'] + '")');
+    }
+
+    // Transaction error callback
+    //
+    function errorCB(tx, err) {
+        alert("Error processing SQL: " + err);
+    }
+
+    // Transaction success callback
+    //
+    function successCB() {
+        alert("success!");
     }
 
 // Register on submit function
