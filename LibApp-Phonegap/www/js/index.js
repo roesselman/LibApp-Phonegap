@@ -1,6 +1,8 @@
 var userarray = [];
 var webpath = "http://www.maichelvanroessel.com/Libapp/";
 
+var whatquery = 0;
+
 // Create local database
 var db = window.openDatabase("LibApp", "1.0", "Lib app database", 200000);
 
@@ -90,7 +92,7 @@ function initApp(){
 
                             // Store user in database (local storage)
                             db.transaction(populateDB, errorCB, successCB);
-                            db.transaction(queryDB, errorCB);
+                            //db.transaction(queryDB, errorCB);
 
                             // Send user to the home page
                             $.mobile.changePage("#page_search", {
@@ -114,28 +116,48 @@ function initApp(){
         });
     }
 
-    function queryDB(tx) {
-        console.log("Trying to use database.");
+    // Populate the database
+    //
+    function populateDB(tx) {
+        whatquery = 1;
+
+        //tx.executeSql('DROP TABLE IF EXISTS SM_Users');
+        //console.log("Trying to create table");
         tx.executeSql('USE LibApp;');
-        console.log("Using database...");
-        console.log("Trying to select all from SM_User table...");
-        tx.executeSql('SELECT * FROM SM_User;', [], querySuccess, errorCB);
-        console.log("Selected * from SM_User!");
+        tx.executeSql('CREATE TABLE IF NOT EXISTS SM_User (Id int, Email varchar(50), Firstname varchar(50), Insertion varchar(30), Lastname varchar(50));');
+        //console.log("Created table");
+
+        tx.executeSql('INSERT INTO SM_User (Id, Email, Firstname, Insertion, Lastname) VALUES (' + userarray['Id'] + ', "' + userarray['Email'] + '", "' + userarray['Firstname'] + '", "' + userarray['Insertion'] + '", "' + userarray['Lastname'] + '");');
+        console.log("Created table");
+        console.log("Inserted user");
+        return true;
+    }
+
+    function queryDB(tx) {
+        whatquery = 2;
+        //console.log("Trying to use database.");
+        //tx.executeSql('USE LibApp;');
+        //console.log("Using database...");
+        //console.log("Trying to select all from SM_User table...");
+        //tx.executeSql('SELECT * FROM SM_User;', [], querySuccess, errorCB);
+        //console.log("Selected * from SM_User!");
+        return true;
     }
 
     function querySuccess(tx, results) {
-        console.log("Query is trying to work.");
+        whatquery = 3;
+        //console.log("Query is trying to work.");
 
         console.log("Returned rows = " + results.rows.length);
 
         // this will be true since it was a select statement and so rowsAffected was 0
-        /*if (!results.rowsAffected) {
+        if (!results.rowsAffected) {
             console.log('No rows affected!');
             return false;
-        }*/
+        }
 
         // for an insert statement, this property will return the ID of the last inserted row
-        console.log("Last inserted row ID = " + results.insertId);
+        //console.log("Last inserted row ID = " + results.insertId);
         //alert("Trying to read results");
         var len = results.rows.length;
 
@@ -144,25 +166,16 @@ function initApp(){
             alert("User: " + results.rows.item(i).Firstname + " " + results.rows.item(i).Insertion + " " + results.rows.item(i).Lastname);
         }
 
-        return true;
-    }
+        console.log("Read results!");
 
-    // Populate the database
-    //
-    function populateDB(tx) {
-        //tx.executeSql('DROP TABLE IF EXISTS SM_Users');
-        console.log("Trying to create table");
-        tx.executeSql('CREATE TABLE IF NOT EXISTS SM_User (Id int unique, Email varchar(50), Firstname varchar(50), Insertion varchar(30), Lastname varchar(50));');
-        console.log("Created table");
-        tx.executeSql('INSERT INTO SM_User (Id, Email, Firstname, Insertion, Lastname) VALUES (' + userarray['Id'] + ', "' + userarray['Email'] + '", "' + userarray['Firstname'] + '", "' + userarray['Insertion'] + '", "' + userarray['Lastname'] + '");');
-        console.log("Inserted user");
-        return true;
+        //return true;
     }
 
     // Transaction error callback
     //
-    function errorCB(tx, err) {
-        alert("Error processing SQL: " + err);
+    function errorCB(tx, error) {
+        console.log("What query are we in: " + whatquery);
+        console.log("Error processing SQL: " + error);
     }
 
     // Transaction success callback
