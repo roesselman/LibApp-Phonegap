@@ -90,7 +90,7 @@ function initApp(){
                             db.transaction(populateDB, errorCB, successCB);
 
 
-                            db.transaction(queryDB, errorCB);
+                            //db.transaction(queryDB, errorCB);
 
                             // Send user to the home page
                             $.mobile.changePage("#page_search", {
