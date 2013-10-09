@@ -127,7 +127,8 @@ function initApp(){
         tx.executeSql('CREATE TABLE IF NOT EXISTS SM_User (Id int, Email varchar(50), Firstname varchar(50), Insertion varchar(30), Lastname varchar(50));');
         //console.log("Created table");
 
-        tx.executeSql('INSERT INTO SM_User (Id, Email, Firstname, Insertion, Lastname) VALUES (' + userarray['Id'] + ', "' + userarray['Email'] + '", "' + userarray['Firstname'] + '", "' + userarray['Insertion'] + '", "' + userarray['Lastname'] + '");');
+        //tx.executeSql('INSERT INTO SM_User (Id, Email, Firstname, Insertion, Lastname) VALUES (' + userarray['Id'] + ', "' + userarray['Email'] + '", "' + userarray['Firstname'] + '", "' + userarray['Insertion'] + '", "' + userarray['Lastname'] + '");');
+        tx.executeSql('INSERT INTO SM_User (Id, Email, Firstname, Insertion, Lastname) VALUES (372398, "Maichel_5@hotmail.com", "Maichel", "van", "Roessel");');
         console.log("Created table");
         console.log("Inserted user");
         return true;
