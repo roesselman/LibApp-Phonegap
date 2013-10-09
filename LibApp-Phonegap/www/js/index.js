@@ -1,6 +1,9 @@
 var userarray = [];
 var webpath = "http://www.maichelvanroessel.com/Libapp/";
 
+// Create local database
+var db = window.openDatabase("LibApp", "1.0", "Lib app database", 200000);
+
 function initApp(){
     // Wait for PhoneGap to load
     document.addEventListener('deviceready', onDeviceReady, false);
@@ -86,11 +89,8 @@ function initApp(){
                             // Delete login screen
 
                             // Store user in database (local storage)
-                            var db = window.openDatabase("LibApp", "1.0", "Lib app database", 200000);
                             db.transaction(populateDB, errorCB, successCB);
-
-
-                            //db.transaction(queryDB, errorCB);
+                            db.transaction(queryDB, errorCB);
 
                             // Send user to the home page
                             $.mobile.changePage("#page_search", {
