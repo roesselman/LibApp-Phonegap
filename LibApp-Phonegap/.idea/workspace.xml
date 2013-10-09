@@ -52,7 +52,7 @@
       <file leaf-file-name="index.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="130" column="154" selection-start="4815" selection-end="4815" vertical-scroll-proportion="0.46028882">
+            <state line="130" column="43" selection-start="4704" selection-end="4704" vertical-scroll-proportion="0.27075812">
               <folding />
             </state>
           </provider>
@@ -88,7 +88,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="22" />
+    <option name="x" value="2" />
+    <option name="y" value="365" />
     <option name="width" value="1280" />
     <option name="height" value="715" />
   </component>
@@ -253,7 +254,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1280" height="715" extended-state="6" />
+    <frame x="2" y="365" width="1280" height="715" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -436,7 +437,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="130" column="154" selection-start="4815" selection-end="4815" vertical-scroll-proportion="0.46028882">
+        <state line="130" column="43" selection-start="4704" selection-end="4704" vertical-scroll-proportion="0.27075812">
           <folding />
         </state>
       </provider>
