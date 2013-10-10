@@ -71,12 +71,14 @@ function initApp(){
     function captureContentImage(mediaFiles) {
         //Save the photo
         contentPhoto = mediaFiles[0];
+        alert("Saved photo.");
         var photofilename = contentPhoto.name;
 
         if(photofilename == '' || photofilename == null || contentPhoto.fullPath == ''|| contentPhoto.fullPath == null){
             alert('Er ging wat mis met de foto. Of je hebt geen foto genomen.');
         }else{
             // Upload photo
+            alert("Trying to upload file.");
             uploadCapturedFile('ContentImages/', challengePhoto);
         }
     }
@@ -86,6 +88,7 @@ function initApp(){
             path = item.fullPath,
             name = item.name;
 
+        alert("Uploading file");
         ft.upload(path,
             webpath + pathextention,
             function(result) {
