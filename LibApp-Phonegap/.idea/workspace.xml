@@ -4,8 +4,8 @@
     <list default="true" id="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" name="Default" comment="" />
     <ignored path="LibApp.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/index.html" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1381141868647" ignored="false" />
-    <file path="/index.js" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1381327462159" ignored="false" />
+    <file path="/index.html" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1381429410270" ignored="false" />
+    <file path="/index.js" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1381430563593" ignored="false" />
     <file path="$PROJECT_DIR$/platforms/android/AndroidManifest.xml" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1380631779665" ignored="false" />
     <file path="$PROJECT_DIR$/platforms/android/assets/www/config.xml" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1380631779665" ignored="false" />
     <file path="$PROJECT_DIR$/platforms/android/res/xml/config.xml" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1380623116969" ignored="false" />
@@ -20,7 +20,7 @@
     <file path="$PROJECT_DIR$/platforms/android/assets/www/phonegap.js" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1380622174717" ignored="false" />
     <file path="/config.xml" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1380622188519" ignored="false" />
     <file path="/testpage.html" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1380534376564" ignored="false" />
-    <file path="/index.css" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1381143764848" ignored="false" />
+    <file path="/index.css" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1381428711409" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,8 +43,11 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="87" selection-start="1607" selection-end="1607" vertical-scroll-proportion="-18.125">
-              <folding />
+            <state line="309" column="53" selection-start="13895" selection-end="13910" vertical-scroll-proportion="-2.76">
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#section#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#p#0;n#div#1;n#section#7;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -52,7 +55,7 @@
       <file leaf-file-name="index.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="130" column="43" selection-start="4704" selection-end="4704" vertical-scroll-proportion="0.27075812">
+            <state line="80" column="9" selection-start="2445" selection-end="2445" vertical-scroll-proportion="0.7823741">
               <folding />
             </state>
           </provider>
@@ -61,7 +64,7 @@
       <file leaf-file-name="index.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/css/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="0" selection-start="446" selection-end="446" vertical-scroll-proportion="0.0">
+            <state line="39" column="31" selection-start="749" selection-end="749" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -81,15 +84,15 @@
         <option value="$PROJECT_DIR$/www/signup.html" />
         <option value="$PROJECT_DIR$/www/config.xml" />
         <option value="$PROJECT_DIR$/www/js/scrollview.js" />
-        <option value="$PROJECT_DIR$/www/index.html" />
         <option value="$PROJECT_DIR$/www/css/index.css" />
+        <option value="$PROJECT_DIR$/www/index.html" />
         <option value="$PROJECT_DIR$/www/js/index.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="2" />
-    <option name="y" value="365" />
+    <option name="x" value="-2" />
+    <option name="y" value="22" />
     <option name="width" value="1280" />
     <option name="height" value="715" />
   </component>
@@ -254,7 +257,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="2" y="365" width="1280" height="715" extended-state="6" />
+    <frame x="-2" y="22" width="1280" height="715" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -339,7 +342,10 @@
     <entry file="file://$PROJECT_DIR$/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#section#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#1;n#section#7;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -360,7 +366,10 @@
     <entry file="file://$PROJECT_DIR$/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#section#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#1;n#section#7;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -381,7 +390,10 @@
     <entry file="file://$PROJECT_DIR$/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="86" column="37" selection-start="3226" selection-end="3226" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#section#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#1;n#section#7;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -423,21 +435,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/css/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="446" selection-end="446" vertical-scroll-proportion="0.0">
+        <state line="39" column="31" selection-start="749" selection-end="749" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="87" selection-start="1607" selection-end="1607" vertical-scroll-proportion="-18.125">
-          <folding />
+        <state line="309" column="53" selection-start="13895" selection-end="13910" vertical-scroll-proportion="-2.76">
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#section#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#1;n#section#7;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="130" column="43" selection-start="4704" selection-end="4704" vertical-scroll-proportion="0.27075812">
+        <state line="80" column="9" selection-start="2445" selection-end="2445" vertical-scroll-proportion="0.7823741">
           <folding />
         </state>
       </provider>

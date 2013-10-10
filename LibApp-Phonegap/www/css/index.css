@@ -45,6 +45,17 @@
     white-space: normal;
 }
 
+.customLibraryView span{
+    width: 100%;
+    background-color: #2489ce;
+    font-weight: normal !important;
+    color: #ffffff;
+    text-align: center;
+    display: block;
+    font-size: 8pt;
+    text-shadow: none;
+}
+
 /*.customLibraryViewLeft{
     margin-right: 10px;
     margin-left: 10px;

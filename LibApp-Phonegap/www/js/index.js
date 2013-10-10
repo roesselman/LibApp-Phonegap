@@ -2,6 +2,9 @@ var userarray = [];
 var webpath = "http://www.maichelvanroessel.com/Libapp/";
 
 var whatquery = 0;
+insertuser = true;
+
+var contentPhoto = '';
 
 // Create local database
 var db = window.openDatabase("LibApp", "1.0", "Lib app database", 200000);
@@ -21,9 +24,18 @@ function initApp(){
             $('#userPassword').val('');
         });*/
 
+        $('#page_addcontent').on("pageshow", function (event){
+            // Empty photo var
+            contentPhotoPhoto = '';
+        });
+
         // Set the action on click record button
         $('#btnLogout'). on("click", function (event){
             logout();
+        });
+
+        $('#btnAddPhoto').on("click", function(){
+            takephoto();
         });
 
         // Add event listener to the back button
@@ -49,6 +61,49 @@ function initApp(){
 
     function logout(){
         history.go(-(history.length - 1));
+    }
+
+    function takephoto(){
+        // Take picture using device camera and retrieve image as base64-encoded string
+        navigator.device.capture.captureImage(captureContentImage, captureError);
+    }
+
+    function captureContentImage(mediaFiles) {
+        //Save the photo
+        contentPhoto = mediaFiles[0];
+        var photofilename = contentPhoto.name;
+
+        if(photofilename == '' || photofilename == null || contentPhoto.fullPath == ''|| contentPhoto.fullPath == null){
+            alert('Er ging wat mis met de foto. Of je hebt geen foto genomen.');
+        }else{
+            // Upload photo
+            uploadCapturedFile('ContentImages/', challengePhoto);
+        }
+    }
+
+    function uploadCapturedFile(pathextention, item){
+        var ft = new FileTransfer(),
+            path = item.fullPath,
+            name = item.name;
+
+        ft.upload(path,
+            webpath + pathextention,
+            function(result) {
+                console.log('Upload success: ' + result.responseCode);
+                //console.log(result.bytesSent + ' bytes sent');
+                //alert('Upload image succeeded!');
+            },
+            function(error) {
+                //console.log('Error uploading file ' + path + ': ' + error.code);
+                alert('The upload of the image went wrong!');
+            },
+            { fileName: name }
+        );
+    }
+
+    function captureError(error) {
+        var msg = 'An error occurred during capture: ' + error.code;
+        navigator.notification.alert(msg, null, 'Uh oh!');
     }
 
     // Login on submit function
@@ -85,14 +140,18 @@ function initApp(){
                         userarray['Firstname'] = phpData.User.Firstname;
                         userarray['Insertion'] = phpData.User.Insertion;
                         userarray['Lastname'] = phpData.User.Lastname;
-
+                        console.log("Id = " + userarray['Id']);
                         // Check what data has been returned
                         if(userarray['Id'] != null && userarray['Id'] != ''){
                             // Delete login screen
 
-                            // Store user in database (local storage)
-                            db.transaction(populateDB, errorCB, successCB);
-                            //db.transaction(queryDB, errorCB);
+                            // See if user is already in local storage
+                            insertuser == true
+                            db.transaction(checkuserexistsDB, errorCB, successCB1);
+
+                            if(insertuser == false){
+                                db.transaction(queryDB, errorCB);
+                            }
 
                             // Send user to the home page
                             $.mobile.changePage("#page_search", {
@@ -116,73 +175,101 @@ function initApp(){
         });
     }
 
+    function checkuserexistsDB(tx){
+        // Add if table exists!!
+
+        //tx.executeSql('DELETE FROM SM_User');
+        tx.executeSql('SELECT Id FROM SM_User', [], successCheckUserExists, errorCB);
+    }
+
+    function successCheckUserExists(tx, results){
+        if (!results.rowsAffected) {
+            var len = results.rows.length;
+
+            //  When no users, allow to insert the user
+            /*if(len == 0 || len == null){
+                insertuser = true;
+                console.log("No user available");
+            }*/
+
+            for (var i=0; i<len; i++){
+                console.log("Id: " + results.rows.item(i).Id + " == " + userarray['Id']);
+                                          3
+                // When user doesn't already exists, allow to insert it
+                if(results.rows.item(i).Id == userarray['Id']){
+                    insertuser = false;
+                    console.log("User does exist! Permission denied!");
+                }
+            }
+
+            // If user doesn't exist put it in database
+            if(insertuser == true){
+                // Store user in database (local storage)
+                db.transaction(populateDB, errorCB, successCB2);
+                console.log("Insert user = true.");
+            }
+
+            return false;
+        }
+    }
+
     // Populate the database
     //
     function populateDB(tx) {
-        whatquery = 1;
+        //console.log("Id = " + userarray['Id'] + ", Email = " + userarray['Email'] + ", Naam = " + userarray['Firstname'] + " " + userarray['Insertion'] + " " + userarray['Lastname']);
+        //tx.executeSql('DROP TABLE IF EXISTS SM_User');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS SM_User (Id int, Email varchar(50), Firstname varchar(50), Insertion varchar(30), Lastname varchar(50))');
+        tx.executeSql('INSERT INTO SM_User VALUES (' + userarray['Id'] + ', "' + userarray['Email'] + '", "' + userarray['Firstname'] + '", "' + userarray['Insertion'] + '", "' + userarray['Lastname'] + '")');
 
-        //tx.executeSql('DROP TABLE IF EXISTS SM_Users');
-        //console.log("Trying to create table");
-        tx.executeSql('USE LibApp;');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS SM_User (Id int, Email varchar(50), Firstname varchar(50), Insertion varchar(30), Lastname varchar(50));');
-        //console.log("Created table");
-
-        //tx.executeSql('INSERT INTO SM_User (Id, Email, Firstname, Insertion, Lastname) VALUES (' + userarray['Id'] + ', "' + userarray['Email'] + '", "' + userarray['Firstname'] + '", "' + userarray['Insertion'] + '", "' + userarray['Lastname'] + '");');
-        tx.executeSql('INSERT INTO SM_User VALUES (372398, "Maichel_5@hotmail.com", "Maichel", "van", "Roessel");');
-        console.log("Created table");
-        console.log("Inserted user");
-        return true;
+        // In debug phase
+        db.transaction(queryDB, errorCB);
     }
 
     function queryDB(tx) {
-        whatquery = 2;
-        //console.log("Trying to use database.");
-        //tx.executeSql('USE LibApp;');
-        //console.log("Using database...");
-        //console.log("Trying to select all from SM_User table...");
-        //tx.executeSql('SELECT * FROM SM_User;', [], querySuccess, errorCB);
-        //console.log("Selected * from SM_User!");
-        return true;
+        tx.executeSql('SELECT * FROM SM_User', [], querySuccess, errorCB);
     }
 
     function querySuccess(tx, results) {
-        whatquery = 3;
-        //console.log("Query is trying to work.");
 
         console.log("Returned rows = " + results.rows.length);
-
         // this will be true since it was a select statement and so rowsAffected was 0
         if (!results.rowsAffected) {
             console.log('No rows affected!');
+
+            // Read result
+            var len = results.rows.length;
+            console.log("SM_User table: " + len + " rows found.");
+            for (var i=0; i<len; i++){
+
+
+                console.log("Row = " + i + " ID = " + results.rows.item(i).Id + " Naam =  " + results.rows.item(i).Firstname + " " + results.rows.item(i).Insertion + " " + results.rows.item(i).Lastname + ".");
+            }
+
             return false;
         }
-
         // for an insert statement, this property will return the ID of the last inserted row
         //console.log("Last inserted row ID = " + results.insertId);
-        //alert("Trying to read results");
-        var len = results.rows.length;
-
-        for (var i=0; i<len; i++){
-            //console.log("Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data);
-            alert("User: " + results.rows.item(i).Firstname + " " + results.rows.item(i).Insertion + " " + results.rows.item(i).Lastname);
-        }
-
-        console.log("Read results!");
-
-        //return true;
     }
 
     // Transaction error callback
     //
-    function errorCB(tx, error) {
-        console.log("What query are we in: " + whatquery);
-        console.log("Error processing SQL: " + error);
+    function errorCB(tx, err) {
+        //console.log("What query are we in: " + whatquery);
+        console.log("Error processing SQL: " + err.message);
     }
 
     // Transaction success callback
     //
-    function successCB() {
-        alert("success!");
+    function successCB1() {
+        alert("Success!");
+        // Show all users in database in console.log
+        //db.transaction(queryDB, errorCB);
+    }
+
+    function successCB2() {
+        alert("Success!");
+        // Show all users in database in console.log
+        db.transaction(queryDB, errorCB);
     }
 
 // Register on submit function
