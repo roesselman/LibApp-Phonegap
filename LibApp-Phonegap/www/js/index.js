@@ -71,16 +71,21 @@ function initApp(){
     function captureContentImage(mediaFiles) {
         //Save the photo
         contentPhoto = mediaFiles[0];
-        alert("Saved photo.");
-        var photofilename = contentPhoto.name;
+        navigator.notification.alert("Saved photo.");
+        /*var photofilename = contentPhoto.name;
 
         if(photofilename == '' || photofilename == null || contentPhoto.fullPath == ''|| contentPhoto.fullPath == null){
-            alert('Er ging wat mis met de foto. Of je hebt geen foto genomen.');
+            navigator.notification.alert('Er ging wat mis met de foto. Of je hebt geen foto genomen.');
         }else{
             // Upload photo
-            alert("Trying to upload file.");
-            uploadCapturedFile('ContentImages/', challengePhoto);
-        }
+            //navigator.notification.alert("Trying to upload file.");
+            //uploadCapturedFile('ContentImages/', challengePhoto);
+        }*/
+    }
+
+    function captureError(error) {
+        var msg = 'An error occurred during capture: ' + error.code;
+        navigator.notification.alert(msg, null, 'Uh oh!');
     }
 
     function uploadCapturedFile(pathextention, item){
@@ -88,7 +93,7 @@ function initApp(){
             path = item.fullPath,
             name = item.name;
 
-        alert("Uploading file");
+        navigator.notification.alert("Uploading file");
         ft.upload(path,
             webpath + pathextention,
             function(result) {
@@ -102,11 +107,6 @@ function initApp(){
             },
             { fileName: name }
         );
-    }
-
-    function captureError(error) {
-        var msg = 'An error occurred during capture: ' + error.code;
-        navigator.notification.alert(msg, null, 'Uh oh!');
     }
 
     // Login on submit function
