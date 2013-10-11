@@ -84,7 +84,7 @@ function initApp(){
     }
 
     function captureError(error) {
-        var msg = 'An error occurred during capture: ' + error.code;
+        var msg = 'An error occurred during capture: ' + error.code + " - Message: " + error.message;
         navigator.notification.alert(msg, null, 'Uh oh!');
     }
 
