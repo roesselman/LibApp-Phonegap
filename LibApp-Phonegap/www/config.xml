@@ -15,6 +15,7 @@
     <feature name="Storage">
         <param name="android-package" value="org.apache.cordova.Storage" />
     </feature>
+    <feature name="http://api.phonegap.com/1.0/camera"/>
 
     <preference name="permissions" value="none" />
     <preference name="orientation" value="default" />
