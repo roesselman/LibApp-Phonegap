@@ -35,7 +35,7 @@ function initApp(){
         });
 
         $('#btnAddPhoto').on("click", function(){
-            takePhoto();
+            takephoto();
         });
 
         // Add event listener to the back button
@@ -63,49 +63,7 @@ function initApp(){
         history.go(-(history.length - 1));
     }
 
-    // Called when capture operation is finished
-    //
-    function captureSuccess(mediaFiles) {
-        //var i, len;
-        //for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-            uploadFile(mediaFiles[0]);
-        //}
-    }
-
-    // Called if something bad happens.
-    //
-    function captureError(error) {
-        var msg = 'An error occurred during capture: ' + error.code;
-        navigator.notification.alert(msg, null, 'Uh oh!');
-    }
-
-    // A button will call this function
-    //
-    function takePhoto() {
-        // Launch device camera application,
-        // allowing user to capture up to 2 images
-        navigator.device.capture.captureImage(captureSuccess, captureError);
-    }
-
-    // Upload files to server
-    function uploadFile(mediaFile) {
-        var ft = new FileTransfer(),
-            path = mediaFile.fullPath,
-            name = mediaFile.name;
-
-        ft.upload(path,
-            webpath + "ContentImages/",
-            function(result) {
-                console.log('Upload success: ' + result.responseCode);
-                console.log(result.bytesSent + ' bytes sent');
-            },
-            function(error) {
-                console.log('Error uploading file ' + path + ': ' + error.code);
-            },
-            { fileName: name });
-    }
-
-    /*function takephoto(){
+    function takephoto(){
         // Take picture using device camera and retrieve image as base64-encoded string
         navigator.device.capture.captureImage(captureContentImage, captureError);
     }
@@ -120,17 +78,17 @@ function initApp(){
             navigator.notification.alert('Er ging wat mis met de foto. Of je hebt geen foto genomen.');
         }else{
             // Upload photo
-            //navigator.notification.alert("Trying to upload file.");
-            //uploadCapturedFile('ContentImages/', challengePhoto);
+            navigator.notification.alert("Trying to upload file.");
+            uploadCapturedFile('ContentImages/', contentPhoto);
         }
     }
 
     function captureError(error) {
         var msg = 'An error occurred during capture: ' + error.code;
         navigator.notification.alert(msg, null, 'Uh oh!');
-    }*/
+    }
 
-    /*function uploadCapturedFile(pathextention, item){
+    function uploadCapturedFile(pathextention, item){
         var ft = new FileTransfer(),
             path = item.fullPath,
             name = item.name;
@@ -149,7 +107,7 @@ function initApp(){
             },
             { fileName: name }
         );
-    }*/
+    }
 
     // Login on submit function
     function checkLoginDataOnSubmit(){

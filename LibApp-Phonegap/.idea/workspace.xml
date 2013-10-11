@@ -5,7 +5,7 @@
     <ignored path="LibApp.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/index.html" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1381429410270" ignored="false" />
-    <file path="/index.js" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1381481789830" ignored="false" />
+    <file path="/index.js" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1381482470916" ignored="false" />
     <file path="$PROJECT_DIR$/platforms/android/AndroidManifest.xml" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1380631779665" ignored="false" />
     <file path="$PROJECT_DIR$/platforms/android/assets/www/config.xml" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1380631779665" ignored="false" />
     <file path="$PROJECT_DIR$/platforms/android/res/xml/config.xml" changelist="c3e9ad02-f8ba-48ea-8bcc-bbb356e9dcfc" time="1380623116969" ignored="false" />
@@ -52,7 +52,7 @@
       <file leaf-file-name="index.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="70" selection-start="2823" selection-end="2823" vertical-scroll-proportion="0.40467626">
+            <state line="81" column="61" selection-start="2576" selection-end="2576" vertical-scroll-proportion="0.7823741">
               <folding />
             </state>
           </provider>
@@ -437,7 +437,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="70" selection-start="2823" selection-end="2823" vertical-scroll-proportion="0.40467626">
+        <state line="81" column="61" selection-start="2576" selection-end="2576" vertical-scroll-proportion="0.7823741">
           <folding />
         </state>
       </provider>
