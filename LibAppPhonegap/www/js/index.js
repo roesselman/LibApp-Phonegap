@@ -4,8 +4,6 @@ var webpath = "http://www.maichelvanroessel.com/Libapp/";
 var whatquery = 0;
 insertuser = true;
 
-var contentPhoto = '';
-
 // Create local database
 var db = window.openDatabase("LibApp", "1.0", "Lib app database", 200000);
 
@@ -14,28 +12,26 @@ function initApp(){
     document.addEventListener('deviceready', onDeviceReady, false);
 
     function onDeviceReady() {
+//        showAlert("alert");
+
         // Setting default page transition to slide
         $.mobile.defaultPageTransition = 'slide';
 
         // Reset login fields
         /*-------------------- Commented for debug purpoces! --------------------*/
-        /*$('#page_login').on("pageshow", function (event){
-            $('#userMail').val('');
-            $('#userPassword').val('');
-        });*/
+//        $(document.getElementById('page_login')).ready(function() {
+//            $('#userMail').val('');
+//            $('#userPassword').val('');
+//        });
 
-        $('#page_addcontent').on("pageshow", function (event){
-            // Empty photo var
-            contentPhotoPhoto = '';
-        });
+//        $('#page_login').on("pageshow", function (event){
+//            $('#userMail').val('');
+//            $('#userPassword').val('');
+//        });
 
         // Set the action on click record button
         $('#btnLogout'). on("click", function (event){
             logout();
-        });
-
-        $('#btnAddPhoto').on("click", function(){
-            takephoto();
         });
 
         // Add event listener to the back button
@@ -44,6 +40,12 @@ function initApp(){
         // Custom functions
         checkLoginDataOnSubmit();
         checkRegisterDataOnSubmit();
+        checkContentDataOnSubmit();
+
+        $(document.getElementById('page_search')).ready(function() {
+            // do stuff when div is ready
+            loadContent();
+        });
     }
 
     // Function for back button
@@ -63,52 +65,6 @@ function initApp(){
         history.go(-(history.length - 1));
     }
 
-    function takephoto(){
-        // Take picture using device camera and retrieve image as base64-encoded string
-        navigator.device.capture.captureImage(captureContentImage, captureError);
-    }
-
-    function captureContentImage(mediaFiles) {
-        //Save the photo
-        contentPhoto = mediaFiles[0];
-        navigator.notification.alert("Saved photo.");
-        var photofilename = contentPhoto.name;
-
-        if(photofilename == '' || photofilename == null || contentPhoto.fullPath == ''|| contentPhoto.fullPath == null){
-            navigator.notification.alert('Er ging wat mis met de foto. Of je hebt geen foto genomen.');
-        }else{
-            // Upload photo
-            navigator.notification.alert("Trying to upload file.");
-            uploadCapturedFile('ContentImages/', contentPhoto);
-        }
-    }
-
-    function captureError(error) {
-        var msg = 'An error occurred during capture: ' + error.code + " - Message: " + error.message;
-        navigator.notification.alert(msg, null, 'Uh oh!');
-    }
-
-    function uploadCapturedFile(pathextention, item){
-        var ft = new FileTransfer(),
-            path = item.fullPath,
-            name = item.name;
-
-        navigator.notification.alert("Uploading file");
-        ft.upload(path,
-            webpath + pathextention,
-            function(result) {
-                console.log('Upload success: ' + result.responseCode);
-                //console.log(result.bytesSent + ' bytes sent');
-                //alert('Upload image succeeded!');
-            },
-            function(error) {
-                //console.log('Error uploading file ' + path + ': ' + error.code);
-                alert('The upload of the image went wrong!');
-            },
-            { fileName: name }
-        );
-    }
-
     // Login on submit function
     function checkLoginDataOnSubmit(){
         // When user submits registration form
@@ -118,10 +74,10 @@ function initApp(){
             var password = $('#userPassword').val();
 
             if(usermail == '' || usermail == null){
-                alert('Email is empty.');
+                showAlert('Email is empty.');
             }
             else if(password == '' || password == null){
-                alert('Password is empty.');
+                showAlert('Password is empty.');
             }
             else{
 
@@ -137,24 +93,30 @@ function initApp(){
                     },
                     success: function(phpData){
 
+
+
                         // Save the user
                         userarray['Id'] = phpData.User.Id;
                         userarray['Email'] = phpData.User.Email;
                         userarray['Firstname'] = phpData.User.Firstname;
                         userarray['Insertion'] = phpData.User.Insertion;
                         userarray['Lastname'] = phpData.User.Lastname;
-                        console.log("Id = " + userarray['Id']);
+
                         // Check what data has been returned
                         if(userarray['Id'] != null && userarray['Id'] != ''){
                             // Delete login screen
 
                             // See if user is already in local storage
-                            insertuser == true
-                            db.transaction(checkuserexistsDB, errorCB, successCB1);
+                            db.transaction(checkuserexistsDB, errorCB, successTransactionCheckUser);
 
+                            // If not allowed to insert a user get the user from db
                             if(insertuser == false){
                                 db.transaction(queryDB, errorCB);
                             }
+
+                            db.transaction(queryDB, errorCB);
+
+                            console.log("Logged in with Id = " + userarray['Id']);
 
                             // Send user to the home page
                             $.mobile.changePage("#page_search", {
@@ -162,13 +124,13 @@ function initApp(){
                             })
                         }
                         else{
-                            alert('No user found.');
+                            showAlert('No user found.');
                         }
 
                     },
                     error: function(xhr, status, errorThrown){
                         // When something goes wrong show error
-                        alert(errorThrown);
+                        showAlert(errorThrown);
                     }
                 });
             }
@@ -186,30 +148,22 @@ function initApp(){
     }
 
     function successCheckUserExists(tx, results){
+        console.log("successCheckUserExists");
         if (!results.rowsAffected) {
             var len = results.rows.length;
 
-            //  When no users, allow to insert the user
-            /*if(len == 0 || len == null){
-                insertuser = true;
-                console.log("No user available");
-            }*/
-
             for (var i=0; i<len; i++){
-                console.log("Id: " + results.rows.item(i).Id + " == " + userarray['Id']);
-                                          3
-                // When user doesn't already exists, allow to insert it
+                // When user already exists, don't allow to insert
                 if(results.rows.item(i).Id == userarray['Id']){
                     insertuser = false;
-                    console.log("User does exist! Permission denied!");
+                    console.log("Userid " + results.rows.item(i).Id + " already exists, permission denied!");
                 }
             }
 
             // If user doesn't exist put it in database
             if(insertuser == true){
                 // Store user in database (local storage)
-                db.transaction(populateDB, errorCB, successCB2);
-                console.log("Insert user = true.");
+                db.transaction(populateDB, errorCB, successTransactionPopulate);
             }
 
             return false;
@@ -217,8 +171,8 @@ function initApp(){
     }
 
     // Populate the database
-    //
     function populateDB(tx) {
+        console.log("populateDB");
         //console.log("Id = " + userarray['Id'] + ", Email = " + userarray['Email'] + ", Naam = " + userarray['Firstname'] + " " + userarray['Insertion'] + " " + userarray['Lastname']);
         //tx.executeSql('DROP TABLE IF EXISTS SM_User');
         tx.executeSql('CREATE TABLE IF NOT EXISTS SM_User (Id int, Email varchar(50), Firstname varchar(50), Insertion varchar(30), Lastname varchar(50))');
@@ -233,7 +187,7 @@ function initApp(){
     }
 
     function querySuccess(tx, results) {
-
+        console.log("querySuccess");
         console.log("Returned rows = " + results.rows.length);
         // this will be true since it was a select statement and so rowsAffected was 0
         if (!results.rowsAffected) {
@@ -257,22 +211,20 @@ function initApp(){
     // Transaction error callback
     //
     function errorCB(tx, err) {
-        //console.log("What query are we in: " + whatquery);
+//        showAlert("Error processing SQL: " + err.message);
         console.log("Error processing SQL: " + err.message);
     }
 
     // Transaction success callback
     //
-    function successCB1() {
-        alert("Success!");
+    function successTransactionCheckUser() {
         // Show all users in database in console.log
         //db.transaction(queryDB, errorCB);
     }
 
-    function successCB2() {
-        alert("Success!");
+    function successTransactionPopulate() {
         // Show all users in database in console.log
-        db.transaction(queryDB, errorCB);
+        //db.transaction(queryDB, errorCB);
     }
 
 // Register on submit function
@@ -287,23 +239,23 @@ function initApp(){
             var lastname = $('#userRegLastname').val();
 
             if(email == '' || email == null){
-                alert('Email is empty.');
+                showAlert('Email is empty.');
             }
             else if(password == '' || password == null){
-                alert('Password is empty.');
+                showAlert('Password is empty.');
             }
             else if(firstname == '' || firstname == null){
-                alert('Firstname is empty.');
+                showAlert('Firstname is empty.');
             }
             else if(lastname == '' || lastname == null){
-                alert('Lastname is empty.');
+                showAlert('Lastname is empty.');
             }
             else{
-                //alert("All correct");
+                //showAlert("All correct");
                 // Insert the data in database to create a user
                 $.ajax({
                     type: "POST",
-                    url: "http://www.maichelvanroessel.com/Libapp/signup.php",
+                    url: webpath + "signup.php",
                     cache: false,
                     dataType: "json",
                     data: {
@@ -315,7 +267,7 @@ function initApp(){
                     },
                     success: function(phpData){
                         // Check what data has been returned
-                        alert('Uw account is aangemaakt.');
+                        showAlert('Uw account is aangemaakt.');
 
                         // Send user to the home page
                         $.mobile.changePage("#page_login", {
@@ -325,7 +277,7 @@ function initApp(){
                     },
                     error: function(xhr, status, errorThrown){
                         // When something goes wrong show the error
-                        alert("Exception: " + errorThrown + ", xhr: " + JSON.stringify(xhr) + ", Status: " + status);
+                        showAlert("Exception: " + errorThrown + ", xhr: " + JSON.stringify(xhr) + ", Status: " + status);
                     }
                 });
             }
@@ -333,5 +285,172 @@ function initApp(){
             // return false to prevent the default submit of the form to the server.
             return false;
         });
+    }
+
+    // Add content on submit function
+    function checkContentDataOnSubmit(){
+        // When user submits add content form
+        $('#addContentForm').submit(function() {
+            // Store form data in variables
+            var libraryid = 12;
+            var contenttype = $('#selectAddContentType').val();
+            var title = $('#etAddContentTitle').val();
+            var location = $('#selectAddContentLocation').val();
+            var position = $('#etAddContentPosition').val();
+            var language = $('#selectAddContentLanguage').val();
+            var url = $('#etAddContentURL').val();
+            var genre;
+            var artist;
+            var duration;
+
+            if (contenttype == 1) {
+                // Audio
+                genre = $('#selectAddContentAudioGenre').val();
+                artist = $('#selectAddContentArtist').val();
+                duration = $('#etAddContentAudioDuration').val();
+            } else if (contenttype == 2) {
+                // Video
+                genre = $('#selectAddContentVideoGenre').val();
+                artist = $('#selectAddContentProducer').val();
+                duration = $('#etAddContentVideoDuration').val();
+                var actors = $('#selectAddContentActors').val();
+                var subtitles = $('#selectAddContentSubtitles').val();
+            } else {
+                // Book
+                genre = $('#selectAddContentBookGenre').val();
+                artist = $('#selectAddContentAuthor').val();
+                var isbn = $('#etAddContentISBN').val();
+            }
+
+            if(title == '' || title == null){
+                showAlert('Title is empty.');
+            }
+            else if(contenttype == '' || contenttype == null){
+                showAlert('Contenttype is empty.');
+            }
+            else if(libraryid == '' || libraryid == null){
+                showAlert('Library is empty.');
+            }
+            else{
+                // Insert the data in database to create the conten
+                $.ajax({
+                    type: "POST",
+                    url: webpath + "createcontent.php",
+                    cache: false,
+                    dataType: "json",
+                    data: {
+                        LibraryId : libraryid,
+                        ContentType : contenttype,
+                        Title : title,
+                        Location : location,
+                        Position : position,
+                        Language : language,
+                        URL : url,
+                        Genre : genre,
+                        Artist : artist,
+                        Duration : duration,
+//                        Actors : actors,
+                        Subtitles : subtitles,
+                        ISBN : isbn
+                    },
+                    success: function(phpData){
+
+                        //showAlert("success: " + phpData);
+
+                        // Check what data has been returned
+//                        showAlert('Uw account is aangemaakt.');
+                    },
+                    error: function(xhr, status, errorThrown){
+                        // When something goes wrong show the error
+                        showAlert("error: " + errorThrown + ", xhr: " + JSON.stringify(xhr) + ", Status: " + status);
+                    }
+                });
+            }
+
+            // return false to prevent the default submit of the form to the server.
+            return false;
+        });
+    }
+
+    function loadContent () {
+
+        // Load all content
+        // If right data - put it in the database
+        $.ajax({
+            type: "POST",
+            url: webpath + "getcontent2.php",
+            cache: false,
+            dataType: "json",
+            data: {
+                UserId : 10
+            },
+            success: function(phpData){
+                if (phpData['Response code'] == 1) {
+                    setupContentList (phpData.Contents);
+                } else {
+                    showAlert('Something went wrong while loading content: ' + phpData['Response message']);
+                    setupContentList ();
+                }
+            },
+            error: function(xhr, status, errorThrown){
+                setupContentList ();
+
+                // When something goes wrong show error
+                showAlert(errorThrown);
+            }
+        });
+    }
+
+    function setupContentList(contents) {
+        var contentlist = $("#contentlist"),
+            length = contents.length,
+            content = null,
+            contentview = null;
+
+        // Clear all content
+        contentlist.empty();
+
+        // Add dividers
+        contentlist.append("<li data-role='list-divider' id='divider_audio'>Audio</li>");
+        contentlist.append("<li data-role='list-divider' id='divider_video'>Video</li>");
+        contentlist.append("<li data-role='list-divider' id='divider_book'>Book</li>");
+
+        // Add contents
+        for (var i = 0; i < length; i++) {
+            content = contents[i];
+            contentview = '<li><a href="#page_seeItem" id="1-regina">' +
+                          '<h1>' + content.Title + '</h1>' +
+                          '<p>' + content.Location + ' [' + content.Position + ']</p>' +
+                          '</a></li>';
+
+            if (content.Contenttype == 1) {
+                $(contentview).insertAfter('#divider_audio');
+            } else if (content.Contenttype == 2) {
+                $(contentview).insertAfter('#divider_video');
+            } else if(content.Contenttype == 3) {
+                $(contentview).insertAfter('#divider_book');
+            }
+        }
+
+        contentlist = null;
+        content = null;
+        contentview = null;
+        length = null;
+    }
+
+    // Show a custom alert
+    //
+    function showAlert(message) {
+        navigator.notification.alert(
+            message,  // message
+            alertDismissed,         // callback
+            'Alert',            // title
+            'Ok'                  // buttonName
+        );
+    }
+
+    // alert dialog dismissed
+    function alertDismissed() {
+        // do something
     }
 }

@@ -29,6 +29,7 @@
         <!-- Javascript -->
         <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.3.2.min.js"></script>
+        <script type="text/javascript" src="js/addcontent.js" charset="utf-8"></script>
 
         <!-- Scrollview -->
         <script src="http://yui.yahooapis.com/3.12.0/build/yui/yui-min.js"></script>
@@ -203,18 +204,18 @@
 
                 <div class="hsvLibraries">
                     <div id="hsvContent">
-                    <a href="#page_addlibrary"><div class="customLibraryView customLibraryViewLeft">
-                        <span>Library Guido 1</span>
-                    </div></a>
-                    <a href="#page_addlibrary"><div class="customLibraryView">
-                        <span>Library Guido 2</span>
-                    </div></a>
-                    <a href="#page_addlibrary"><div class="customLibraryView">
-                        <span>Library Guido 3</span>
-                    </div></a>
-                    <a href="#page_addlibrary"><div class="customLibraryView customLibraryViewRight">
-                        <span>Library Guido 4</span>
-                    </div></a>
+                    <div class="customLibraryView customLibraryViewLeft">
+
+                    </div>
+                    <div class="customLibraryView">
+
+                    </div>
+                    <div class="customLibraryView">
+
+                    </div>
+                    <div class="customLibraryView customLibraryViewRight">
+
+                    </div>
                     <div style="clear: left;"></div>
                     </div>
                 </div>
@@ -225,12 +226,12 @@
                 <p>Shared libraries</p>
                 <div class="hsvLibraries">
                     <!--<div id="hsvContent">-->
-                    <a href="#page_addlibrary"><div class="customLibraryView customLibraryViewLeft">
-                        <span>Library Maichel 1</span>
-                    </div></a>
-                    <a href="#page_addlibrary"><div class="customLibraryView customLibraryViewRight">
-                        <span>Library Maichel 2</span>
-                    </div></a>
+                    <div class="customLibraryView customLibraryViewLeft">
+
+                    </div>
+                    <div class="customLibraryView customLibraryViewRight">
+
+                    </div>
                     <div style="clear: left;"></div>
                     <!--</div>-->
                 </div>
@@ -314,9 +315,153 @@
                 <h1>Add content</h1>
             </div>
 
+            <!-- Content -->
             <div data-role="content">
-                <p style="text-align: center">Add content screen</p>
-                <a href="" data-role="button" id="btnAddPhoto">Add Photo</a>
+                <form method="POST" action="#page_addcontent" id="addContentForm">
+
+                    <select name="selectContentType" id="selectAddContentType" onchange="contentTypeChanged(this)">
+                        <option value="1">Audio</option>
+                        <option value="2">Video</option>
+                        <option value="3">Book</option>
+                    </select>
+
+                    <fieldset data-role="fieldcontain">
+                        <label for="etAddContentTitle">Title</label>
+                        <input type="text" name="etTitle" id="etAddContentTitle" value="" placeholder="Title" />
+                    </fieldset>
+
+                    <!-- AUDIO -->
+                    <div id="divAddContentAudio" style="display: block;">
+                        <fieldset data-role="fieldcontain">
+                            <label for="selectAddContentAudioGenre">Genre</label>
+                            <select name="selectAudioGenre" id="selectAddContentAudioGenre">
+                                <option value="0"></option>
+                                <option value="1">Pop</option>
+                                <option value="2">Hip hop</option>
+                                <option value="3">Jazz</option>
+                            </select>
+                        </fieldset>
+                        <fieldset data-role="fieldcontain">
+                            <label for="selectAddContentArtist">Artist</label>
+                            <select name="selectArtist" id="selectAddContentArtist">
+                                <option value=""></option>
+                                <option value="Rihanna">Rihanna</option>
+                                <option value="Bruno Mars">Bruno Mars</option>
+                                <option value="The Beatles">The Beatles</option>
+                                <option value="Metallica">Metallica</option>
+                            </select>
+                        </fieldset>
+                        <fieldset data-role="fieldcontain">
+                            <label for="etAddContentAudioDuration">Duration</label>
+                            <input type="number" name="etDuration" id="etAddContentAudioDuration" value="" placeholder="Duration" />
+                        </fieldset>
+                    </div>
+
+                    <!-- VIDEO -->
+                    <div id="divAddContentVideo" style="display: none;">
+                        <fieldset data-role="fieldcontain">
+                            <label for="selectAddContentVideoGenre">Genre</label>
+                            <select name="selectVideoGenre" id="selectAddContentVideoGenre">
+                                <option value="0"></option>
+                                <option value="4">Western</option>
+                                <option value="5">Thriller</option>
+                                <option value="6">Romance</option>
+                            </select>
+                        </fieldset>
+                        <fieldset data-role="fieldcontain">
+                            <label for="selectAddContentProducer">Producer</label>
+                            <select name="selectProducer" id="selectAddContentProducer">
+                                <option value=""></option>
+                                <option value="Quentin Tarantino">Quentin Tarantino</option>
+                                <option value="Stanley Kubrick">Stanley Kubrick</option>
+                                <option value="Alfred Hitchcock">Alfred Hitchcock</option>
+                                <option value="Francis Ford Coppola">Francis Ford Coppola</option>
+                            </select>
+                        </fieldset>
+                        <fieldset data-role="fieldcontain">
+                            <label for="selectAddContentActors">Actors</label>
+                            <select name="selectActors" id="selectAddContentActors" multiple>
+                                <option value=""></option>
+                                <option value="Pierce Brosnan">Pierce Brosnan</option>
+                                <option value="Jim Carrey">Jim Carrey</option>
+                                <option value="Bradley Cooper">Bradley Cooper</option>
+                                <option value="Tom Cruise">Tom Cruise</option>
+                            </select>
+                        </fieldset>
+                        <fieldset data-role="fieldcontain">
+                            <label for="selectAddContentSubtitles">Subtitles</label>
+                            <select name="selectSubtitles" id="selectAddContentSubtitles">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </fieldset>
+                        <fieldset data-role="fieldcontain">
+                            <label for="etAddContentVideoDuration">Duration</label>
+                            <input type="number" name="etDuration" id="etAddContentVideoDuration" value="" placeholder="Duration" />
+                        </fieldset>
+                    </div>
+
+                    <!-- BOOK -->
+                    <div id="divAddContentBook" style="display: none;">
+                        <fieldset data-role="fieldcontain">
+                            <label for="etAddContentISBN">ISBN</label>
+                            <input type="text" name="etISBN" id="etAddContentISBN" value="" placeholder="ISBN" />
+                        </fieldset>
+                        <fieldset data-role="fieldcontain">
+                            <label for="selectAddContentBookGenre">Genre</label>
+                            <select name="selectBookGenre" id="selectAddContentBookGenre">
+                                <option value="0"></option>
+                                <option value="5">Thriller</option>
+                                <option value="8">Adventure</option>
+                                <option value="9">Fiction</option>
+                            </select>
+                        </fieldset>
+                        <fieldset data-role="fieldcontain">
+                            <label for="selectAddContentAuthor">Author</label>
+                            <select name="selectAuthor" id="selectAddContentAuthor">
+                                <option value=""></option>
+                                <option value="James Patterson">James Patterson</option>
+                                <option value="Alice Munro">Alice Munro</option>
+                                <option value="Stephen King">Stephen King</option>
+                                <option value="Lee Child">Lee Child</option>
+                            </select>
+                        </fieldset>
+                    </div>
+
+                    <fieldset data-role="fieldcontain">
+                        <label for="selectAddContentLanguage">Language</label>
+                        <select name="selectLanguage" id="selectAddContentLanguage">
+                            <option value="0"></option>
+                            <option value="1">English</option>
+                            <option value="2">Dutch</option>
+                            <option value="3">German</option>
+                            <option value="4">French</option>
+                            <option value="5">Spanish</option>
+                        </select>
+                    </fieldset>
+                    <fieldset data-role="fieldcontain">
+                        <label for="etAddContentURL">URL</label>
+                        <input type="text" name="etURL" id="etAddContentURL" value="" placeholder="URL"/>
+                    </fieldset>
+                    </br>
+                    <fieldset data-role="fieldcontain">
+                        <label for="selectAddContentLocation">Location</label>
+                        <select name="selectLocation" id="selectAddContentLocation">
+                            <option value=""></option>
+                            <option value="Map">Map</option>
+                            <option value="Cabinet">Cabinet</option>
+                            <option value="Case">Case </option>
+                            <option value="Computer">Computer</option>
+                        </select>
+                    </fieldset>
+                    <fieldset data-role="fieldcontain">
+                        <label for="etAddContentPosition">Position</label>
+                        <input type="text" name="etPosition" id="etAddContentPosition" value="" placeholder="Position"/>
+                    </fieldset>
+                    <fieldset>
+                        <input type="submit" value="Add content" />
+                    </fieldset>
+                </form>
             </div>
 
             <!-- Tab barr -->

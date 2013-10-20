@@ -15,9 +15,6 @@
     <feature name="Storage">
         <param name="android-package" value="org.apache.cordova.Storage" />
     </feature>
-    <feature name="Capture">
-    	<param name="android-package" value="org.apache.cordova.Capture" />
-	</feature>
 
     <preference name="permissions" value="none" />
     <preference name="orientation" value="default" />
