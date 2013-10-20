@@ -1,7 +1,6 @@
 var userarray = [];
 var webpath = "http://www.maichelvanroessel.com/Libapp/";
 
-var whatquery = 0;
 insertuser = true;
 
 // Create local database
@@ -30,7 +29,7 @@ function initApp(){
 //        });
 
         // Set the action on click record button
-        $('#btnLogout'). on("click", function (event){
+        $('#btnLogout').on("click", function (event){
             logout();
         });
 
@@ -42,10 +41,14 @@ function initApp(){
         checkRegisterDataOnSubmit();
         checkContentDataOnSubmit();
 
-        $(document.getElementById('page_search')).ready(function() {
-            // do stuff when div is ready
+        $('#page_search').on("pageshow", function (event){
             loadContent();
         });
+
+        /*$(document.getElementById('page_search')).ready(function() {
+            // do stuff when div is ready
+            loadContent();
+        });*/
     }
 
     // Function for back button
@@ -92,9 +95,6 @@ function initApp(){
                         Password : password
                     },
                     success: function(phpData){
-
-
-
                         // Save the user
                         userarray['Id'] = phpData.User.Id;
                         userarray['Email'] = phpData.User.Email;
@@ -107,16 +107,13 @@ function initApp(){
                             // Delete login screen
 
                             // See if user is already in local storage
-                            db.transaction(checkuserexistsDB, errorCB, successTransactionCheckUser);
+                            insertuser == true
+                            db.transaction(checkuserexistsDB, errorCB, successCB1);
 
-                            // If not allowed to insert a user get the user from db
+                            // Show users in console.log if not inserting
                             if(insertuser == false){
                                 db.transaction(queryDB, errorCB);
                             }
-
-                            db.transaction(queryDB, errorCB);
-
-                            console.log("Logged in with Id = " + userarray['Id']);
 
                             // Send user to the home page
                             $.mobile.changePage("#page_search", {
@@ -141,29 +138,35 @@ function initApp(){
     }
 
     function checkuserexistsDB(tx){
-        // Add if table exists!!
+        // Add table if exists!!
+        tx.executeSql('CREATE TABLE IF NOT EXISTS SM_User (Id int, Email varchar(50), Firstname varchar(50), Insertion varchar(30), Lastname varchar(50))');
+        tx.executeSql('SELECT Id FROM SM_User;', [], successCheckUserExists, errorCB);
+    }
 
-        //tx.executeSql('DELETE FROM SM_User');
-        tx.executeSql('SELECT Id FROM SM_User', [], successCheckUserExists, errorCB);
+    function successTableExists(tx, results){
+
     }
 
     function successCheckUserExists(tx, results){
-        console.log("successCheckUserExists");
         if (!results.rowsAffected) {
             var len = results.rows.length;
 
             for (var i=0; i<len; i++){
-                // When user already exists, don't allow to insert
+                //console.log("Id: " + results.rows.item(i).Id + " == " + userarray['Id']);
+
+                // When user doesn't already exists, allow to insert it
                 if(results.rows.item(i).Id == userarray['Id']){
                     insertuser = false;
-                    console.log("Userid " + results.rows.item(i).Id + " already exists, permission denied!");
+                    console.log("User already exist!");
+                    db.transaction(queryDB, errorCB);
                 }
             }
 
             // If user doesn't exist put it in database
             if(insertuser == true){
                 // Store user in database (local storage)
-                db.transaction(populateDB, errorCB, successTransactionPopulate);
+                db.transaction(populateDB, errorCB, successCB2);
+                console.log("Insert user = true.");
             }
 
             return false;
@@ -172,59 +175,47 @@ function initApp(){
 
     // Populate the database
     function populateDB(tx) {
-        console.log("populateDB");
-        //console.log("Id = " + userarray['Id'] + ", Email = " + userarray['Email'] + ", Naam = " + userarray['Firstname'] + " " + userarray['Insertion'] + " " + userarray['Lastname']);
-        //tx.executeSql('DROP TABLE IF EXISTS SM_User');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS SM_User (Id int, Email varchar(50), Firstname varchar(50), Insertion varchar(30), Lastname varchar(50))');
+        // Insert user in local storage
         tx.executeSql('INSERT INTO SM_User VALUES (' + userarray['Id'] + ', "' + userarray['Email'] + '", "' + userarray['Firstname'] + '", "' + userarray['Insertion'] + '", "' + userarray['Lastname'] + '")');
-
-        // In debug phase
-        db.transaction(queryDB, errorCB);
     }
 
     function queryDB(tx) {
+        // Select all users from local storage
         tx.executeSql('SELECT * FROM SM_User', [], querySuccess, errorCB);
     }
 
     function querySuccess(tx, results) {
-        console.log("querySuccess");
-        console.log("Returned rows = " + results.rows.length);
+
         // this will be true since it was a select statement and so rowsAffected was 0
         if (!results.rowsAffected) {
-            console.log('No rows affected!');
 
             // Read result
             var len = results.rows.length;
             console.log("SM_User table: " + len + " rows found.");
+
             for (var i=0; i<len; i++){
-
-
                 console.log("Row = " + i + " ID = " + results.rows.item(i).Id + " Naam =  " + results.rows.item(i).Firstname + " " + results.rows.item(i).Insertion + " " + results.rows.item(i).Lastname + ".");
             }
 
             return false;
         }
         // for an insert statement, this property will return the ID of the last inserted row
-        //console.log("Last inserted row ID = " + results.insertId);
+        // console.log("Last inserted row ID = " + results.insertId);
     }
 
     // Transaction error callback
-    //
     function errorCB(tx, err) {
-//        showAlert("Error processing SQL: " + err.message);
         console.log("Error processing SQL: " + err.message);
     }
 
-    // Transaction success callback
-    //
-    function successTransactionCheckUser() {
-        // Show all users in database in console.log
-        //db.transaction(queryDB, errorCB);
+    // Transaction success callbacks
+    function successCB1() {
+        // Query 1 success.
     }
 
-    function successTransactionPopulate() {
+    function successCB2() {
         // Show all users in database in console.log
-        //db.transaction(queryDB, errorCB);
+        db.transaction(queryDB, errorCB);
     }
 
 // Register on submit function
@@ -292,7 +283,7 @@ function initApp(){
         // When user submits add content form
         $('#addContentForm').submit(function() {
             // Store form data in variables
-            var libraryid = 12;
+            var libraryid = 95;
             var contenttype = $('#selectAddContentType').val();
             var title = $('#etAddContentTitle').val();
             var location = $('#selectAddContentLocation').val();
@@ -373,16 +364,14 @@ function initApp(){
     }
 
     function loadContent () {
-
         // Load all content
-        // If right data - put it in the database
         $.ajax({
             type: "POST",
-            url: webpath + "getcontent2.php",
+            url: webpath + "getcontent.php",
             cache: false,
             dataType: "json",
             data: {
-                UserId : 10
+                UserId : userarray['Id']
             },
             success: function(phpData){
                 if (phpData['Response code'] == 1) {
@@ -410,28 +399,39 @@ function initApp(){
         // Clear all content
         contentlist.empty();
 
-        // Add dividers
-        contentlist.append("<li data-role='list-divider' id='divider_audio'>Audio</li>");
-        contentlist.append("<li data-role='list-divider' id='divider_video'>Video</li>");
-        contentlist.append("<li data-role='list-divider' id='divider_book'>Book</li>");
+        // Check if there is any content connected to logged in user
+        if(length != 0){
+            // Add dividers
+            contentlist.append("<li data-role='list-divider' id='divider_audio'>Audio</li>");
+            contentlist.append("<li data-role='list-divider' id='divider_video'>Video</li>");
+            contentlist.append("<li data-role='list-divider' id='divider_book'>Book</li>");
 
-        // Add contents
-        for (var i = 0; i < length; i++) {
-            content = contents[i];
-            contentview = '<li><a href="#page_seeItem" id="1-regina">' +
-                          '<h1>' + content.Title + '</h1>' +
-                          '<p>' + content.Location + ' [' + content.Position + ']</p>' +
-                          '</a></li>';
+            // Add contents
+            for (var i = 0; i < length; i++) {
+                content = contents[i];
+                contentview = '<li><a href="#page_seeItem" id="1-regina">' +
+                              '<h1>' + content.Title + '</h1>' +
+                              '<p>' + content.Location + ' [' + content.Position + ']</p>' +
+                              '</a></li>';
 
-            if (content.Contenttype == 1) {
-                $(contentview).insertAfter('#divider_audio');
-            } else if (content.Contenttype == 2) {
-                $(contentview).insertAfter('#divider_video');
-            } else if(content.Contenttype == 3) {
-                $(contentview).insertAfter('#divider_book');
+                if (content.Contenttype == 1) {
+                    $(contentview).insertAfter('#divider_audio');
+                } else if (content.Contenttype == 2) {
+                    $(contentview).insertAfter('#divider_video');
+                } else if(content.Contenttype == 3) {
+                    $(contentview).insertAfter('#divider_book');
+                }
             }
         }
+        else{
+            contentlist.append("<li data-role='list-divider'>No content available</li>");
+        }
 
+        // Refresh jQuery css of list.
+        contentlist.listview('refresh');
+        contentlist.trigger('create');
+
+        // Delete all references of vars
         contentlist = null;
         content = null;
         contentview = null;
